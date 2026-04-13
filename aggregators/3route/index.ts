@@ -41,6 +41,9 @@ const query = gql`
 const fetchTezos = async (_: any, _1: any, { startOfDay }: FetchOptions): Promise<FetchResult> => {
   const startDate = new Date(startOfDay * 1000).toISOString()
   const endDate = new Date((startOfDay + 86400) * 1000).toISOString()
+  console.log(`Current time is ${new Date().toISOString()}`)
+  console.log(`Fetching Tezos volume for ${startDate} to ${endDate}`)
+  
 
   const response = await request<TezosVolumeResponse>(tezosURL, query, { dappSlug, startDate, endDate })
   if (response.dapp_stat_1d.length == 0) {
