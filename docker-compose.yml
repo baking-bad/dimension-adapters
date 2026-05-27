@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  tests:
+    restart: always
+    image: ghcr.io/baking-bad/dimension-adapters:sha-ec5585d
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement: &placement
+        constraints:
+          - node.hostname == ${NODE_HOSTNAME}
+    networks:
+      - indexer-network
+      - prometheus-slave
+    logging: &logging
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+        tag: "{{.Name}}.{{.ImageID}}"
+
+networks:
+  indexer-network:
+  prometheus-slave:
+    external: true
